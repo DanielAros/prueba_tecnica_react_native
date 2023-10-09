@@ -1,31 +1,9 @@
-import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
 import TouchableComponent from "../assets/TouchableComponent";
 import { Entypo } from '@expo/vector-icons';
-import axios from "axios";
-
-import {API_KEY} from "@env";
-
 export default function CardTrack(props) {
     const data = props.data;
-    const [trackInfo, setTrackInfo] = useState();
 
-    // useEffect(() => {
-    //     const getTrackInfo = async () => {
-    //         console.log('DATA', data)
-    //         // const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=${API_KEY}&format=json&limit=20`);
-    //         const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${API_KEY}&artist=${data.artist.name}&track=${data.name}&format=json`);
-    //         const data = await response.data.track;
-    //         console.log("CARD TRACK", data)
-    //         setTrackInfo(data.track);
-    //     }
-    //     getTrackInfo();
-    //     // console.log('INFOASDA', trackInfo)
-    // }, []);
-    useEffect(() => {
-        // console.log(API_KEY)
-        console.log('DATA', data.artist.name, data.name)
-    }, []);
     return (
         <TouchableComponent onPress={props.onPress}>
             <View style={styles.container}>

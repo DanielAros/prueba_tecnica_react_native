@@ -30,18 +30,15 @@ export default function App() {
     
     const updateOrientation = async () => {
       const currentOrientation = await ScreenOrientation.getOrientationAsync();
-      
-      // console.log('Current Orientation', currentOrientation)
+
       if (currentOrientation === 3 || currentOrientation === 4) {
-        // El teléfono está en posición horizontal
         setOrientation('landscape');
       } else {
-        // El teléfono está en posición vertical
         setOrientation('portrait');
       }
     };
 
-    updateOrientation(); // Llama a la función para configurar la orientación inicial
+    updateOrientation();
 
     const subscription = ScreenOrientation.addOrientationChangeListener(updateOrientation);
 
@@ -52,10 +49,6 @@ export default function App() {
   }, []);
  
   return (
-    // <View style={styles.container}>
-    //   <Home/>
-    //   <StatusBar style="auto" />
-    // </View>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{animation: 'slide_from_bottom'}}>
         <Stack.Screen 
@@ -115,14 +108,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%',
-  },
-});

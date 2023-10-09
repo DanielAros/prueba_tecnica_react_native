@@ -10,7 +10,7 @@ export default function Details({route, navigation}) {
     const [duration, setDuration] = useState(`${Math.floor(item.duration / 60)}:${item.duration % 60}`);
     const [playing, setPlaying] = useState(false);
 
-    const [orientation, setOrientation] = useState(false); // Estado para almacenar la orientación actual
+    const [orientation, setOrientation] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,22 +38,18 @@ export default function Details({route, navigation}) {
     const updateOrientation = async () => {
       const currentOrientation = await ScreenOrientation.getOrientationAsync();
       
-      // console.log('Current Orientation', currentOrientation)
       if (currentOrientation === 3 || currentOrientation === 4) {
-        // El teléfono está en posición horizontal
         setOrientation(true);
       } else {
-        // El teléfono está en posición vertical
         setOrientation(false);
       }
     };
 
-    updateOrientation(); // Llama a la función para configurar la orientación inicial
+    updateOrientation();
 
     const subscription = ScreenOrientation.addOrientationChangeListener(updateOrientation);
 
     return () => {
-      // Limpia la suscripción cuando el componente se desmonta
       subscription.remove();
     };
   }, []);
