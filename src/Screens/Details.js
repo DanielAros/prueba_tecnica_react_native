@@ -2,16 +2,39 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { AntDesign, Entypo, FontAwesome5, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import * as ScreenOrientation  from 'expo-screen-orientation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Details({route, navigation}) {
     const {item} = route.params;
 
-    const [duration, setDuration] = useState(`${Math.floor(item.duration / 60)} : ${item.duration % 60}`);
+    const [duration, setDuration] = useState(`${Math.floor(item.duration / 60)}:${item.duration % 60}`);
     const [playing, setPlaying] = useState(false);
 
     const [orientation, setOrientation] = useState(false); // Estado para almacenar la orientación actual
 
   useEffect(() => {
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('lastSongs');
+            if(value !== null){
+                const lastSongs = JSON.parse(value);
+                if(lastSongs.length === 10){
+                    lastSongs.shift();
+                }
+                const result = lastSongs.find(song => song.mbid === item.mbid);
+
+                if(result == undefined){
+                    lastSongs.push(item);
+                    const jsonValue = JSON.stringify(lastSongs);
+                    await AsyncStorage.setItem('lastSongs', jsonValue);
+                }
+            }
+        } catch (e) {
+          console.log(e);
+        }
+    };
+    getData();
+
     const updateOrientation = async () => {
       const currentOrientation = await ScreenOrientation.getOrientationAsync();
       
@@ -41,7 +64,7 @@ export default function Details({route, navigation}) {
                 <View style={styles.containerImage}>
                     <Image
                         style={orientation ? {...styles.image, width: 200, height: 200} : {...styles.image, width: 250,height: 250}} 
-                        source={{uri: `${item.image[3]['#text']}`}} 
+                        source={{uri: `${item.image[0]['#text']}`}} 
                     />
                 </View>
                 <View style={orientation ? {width: '50%'} : {width: '100%', height: '40%', marginTop: 20}}>

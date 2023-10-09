@@ -11,7 +11,7 @@ export default function Home({navigation, route}) {
 
     useEffect(() => {
         const getTopTracks = async () => {
-            const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=${API_KEY}&format=json&limit=10`);
+            const response = await axios.get(`http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=${API_KEY}&format=json&limit=20`);
             const data = await response.data;
             setFetchData(data.tracks.track);
         }
