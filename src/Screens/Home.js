@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, Dimensions, FlatList, Image } from "react-native";
 import CardTrack from "../components/CardTrack";
 import axios from "axios";
 import {API_KEY} from "@env";
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from "@react-navigation/native";
 
 
 export default function Home({navigation, route}) {
 
     const [fetchData, setFetchData] = useState();
     const [playing, setPlaying] = useState(false);
-    const [song, setSong] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [song, setSong] = useState(null);
 
     useEffect(() => {
         const getTopTracks = async () => {
@@ -29,6 +29,7 @@ export default function Home({navigation, route}) {
         try {
           const value = await AsyncStorage.getItem('lastSongs');
           const lastSongs = JSON.parse(value);
+          console.log(lastSongs)
           if (value !== null) {
             setSong(lastSongs.reverse());
           }
@@ -37,20 +38,22 @@ export default function Home({navigation, route}) {
         }
     };
 
-    useEffect(() => {
-        getData();
-    }, [showModal]);
-
+    useFocusEffect(
+        React.useCallback(() => {
+          console.log('Pantalla anterior ha obtenido el foco');
+          getData();
+        }, [])
+      );
     return (
         <View style={styles.container}>
             <StatusBar barStyle="dark-content" backgroundColor="#ecf0f1" />
             <FlatList
                 data={fetchData}
-                renderItem={({item}) => <CardTrack data={item} onPress={() => {navigation.navigate('Details', {...route, item}); setShowModal(true)}}/>}
+                renderItem={({item}) => <CardTrack data={item} onPress={() => {navigation.navigate('Details', {...route, item})}}/>}
                 keyExtractor={item => item.mbid}
             />
             {
-                showModal 
+                song !== null && song !== undefined && song.length > 0
                 ?
                 <View style={styles.cardBottom}>
                     <View>
