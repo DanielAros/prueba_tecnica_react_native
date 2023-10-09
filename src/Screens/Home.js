@@ -5,7 +5,7 @@ import CardTrack from "../components/CardTrack";
 import axios from "axios";
 import {API_KEY} from "@env";
 
-export default function Home({navigation}) {
+export default function Home({navigation, route}) {
 
     const [fetchData, setFetchData] = useState();
 
@@ -25,7 +25,7 @@ export default function Home({navigation}) {
             </View> */}
             <FlatList
                 data={fetchData}
-                renderItem={({item}) => <CardTrack data={item} onPress={() => navigation.navigate('Details', {item})}/>}
+                renderItem={({item}) => <CardTrack data={item} onPress={() => navigation.navigate('Details', {...route, item})}/>}
                 keyExtractor={item => item.mbid}
             />
         </View>

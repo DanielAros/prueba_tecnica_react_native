@@ -37,7 +37,6 @@ export default function App() {
       subscription.remove();
     };
   }, []);
-
  
   return (
     // <View style={styles.container}>
