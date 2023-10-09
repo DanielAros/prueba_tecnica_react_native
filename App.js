@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Dimensions } from 'react-native';
-import {DeviceMotion} from 'expo-sensors';
 import * as ScreenOrientation  from 'expo-screen-orientation';
 import Home from './src/Screens/Home';
+import Details from './src/Screens/Details';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 
+const Stack = createNativeStackNavigator();
 
 export default function App() {
 
@@ -34,12 +37,47 @@ export default function App() {
       subscription.remove();
     };
   }, []);
+
  
   return (
-    <View style={styles.container}>
-      <Home/>
-      <StatusBar style="auto" />
-    </View>
+    // <View style={styles.container}>
+    //   <Home/>
+    //   <StatusBar style="auto" />
+    // </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{animation: 'slide_from_bottom'}}>
+        <Stack.Screen 
+          name="Home" 
+          component={Home}
+          options={{
+            title: 'Top Tracks from Mexico',
+            headerStyle: {
+              backgroundColor: '#162238',
+            },
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 18,
+            }
+          }}
+        />
+        <Stack.Screen 
+          name="Details" 
+          component={Details}
+          options={{
+            title: 'Top Tracks from Mexico',
+            headerStyle: {
+              backgroundColor: '#162238',
+            },
+            headerTintColor: '#fff',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 18,
+            }
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

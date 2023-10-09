@@ -12,7 +12,7 @@ export default function CardTrack(props) {
                 <View style={{flexDirection: 'row'}}>
                     <Image
                         style={styles.image} 
-                        source={{uri: 'https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png'}} 
+                        source={{uri: `${data.image[3]['#text']}`}} 
                     />
                     <View style={styles.containerTrack}>
                         <View style={styles.details}>
